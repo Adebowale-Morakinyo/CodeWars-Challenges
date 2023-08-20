@@ -41,6 +41,7 @@ field = [
 ]
 
 print(validate_battlefield(field))  # Output: True
+```
 
 ## Contributing
 
