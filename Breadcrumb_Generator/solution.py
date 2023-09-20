@@ -23,6 +23,16 @@ def generate_bc(url, separator):
             if ext in ("html", "htm", "php", "asp"):
                 component = component.rsplit('-', 1)[0]
 
+        # Handle "index.something" as if it's not there
+        if component.startswith("index."):
+            continue
+
+        # Remove anchors and parameters
+        if '#' in component:
+            component = component.split('#', 1)[0]
+        if '?' in component:
+            component = component.split('?', 1)[0]
+
         # Acronymize long components
         component = ''.join(word[0] for word in component.split('-') if word not in ignore_words)
 
