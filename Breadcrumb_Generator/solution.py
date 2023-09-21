@@ -34,12 +34,17 @@ def generate_bc(url, separator):
             component = component.split('?', 1)[0]
 
         # Acronymize long components
-        component = ''.join(word[0] for word in component.split('-') if word not in ignore_words)
+        acronym = ""
+        words = component.split('-')
+        for word in words:
+            if word not in ignore_words:
+                acronym += word[0]
+        if len(acronym) > 0:
+            component = acronym
 
         # Shorten if longer than 30 characters
         if len(component) > 30:
-            words = component.split('-')
-            component = '-'.join(word[0] for word in words if word not in ignore_words)
+            component = component[:30]
 
         # Build the path
         path += component + '/'
