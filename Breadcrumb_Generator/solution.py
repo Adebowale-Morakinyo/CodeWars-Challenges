@@ -16,7 +16,7 @@ def generate_bc(url, separator):
 
     for part in url_parts:
         # Handle acronymization for long components
-        if len(part) > 30:
+        if len(part) > 30 and part != url_parts[-1]:
             words = [word for word in part.split('-') if word not in ignore_words]
             acronym = ''.join(word[0].upper() for word in words)
             part = acronym
@@ -25,8 +25,14 @@ def generate_bc(url, separator):
         current_path += part + '/'
 
         # Check if it's the last element
-        if part.endswith(('.html', '.htm', '.php', '.asp')):
-            breadcrumb.append('<span class="active">' + part[:-5].upper() + '</span>')
+        if part == url_parts[-1]:
+            # Check for common extensions
+            if any(part.endswith(ext) for ext in ['.html', '.htm', '.php', '.asp']):
+                part = part.rsplit('.', 1)[0]  # Remove extension
+
+        # Check if it's the last element (again)
+        if part == url_parts[-1]:
+            breadcrumb.append('<span class="active">' + part.upper() + '</span>')
         else:
             breadcrumb.append('<a href="' + current_path + '">' + part.upper() + '</a>')
 
