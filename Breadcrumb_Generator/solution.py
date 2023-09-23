@@ -6,7 +6,7 @@ def generate_bc(url, separator):
     url_parts = url.split('?')[0].split('#')[0].split('/')
 
     # Remove empty and redundant elements
-    url_parts = [part for part in url_parts if part and part != "index"]
+    url_parts = [part for part in url_parts if part and part.lower() != "index"]
 
     # Initialize the breadcrumb trail with the HOME element
     breadcrumb = ['<a href="/">HOME</a>']
@@ -27,7 +27,8 @@ def generate_bc(url, separator):
         # Check if it's the last element
         if part == url_parts[-1]:
             # Check for common extensions
-            if any(part.endswith(ext) for ext in ['.html', '.htm', '.php', '.asp']):
+            extensions = ['.html', '.htm', '.php', '.asp']
+            if any(part.endswith(ext) for ext in extensions):
                 part = part.rsplit('.', 1)[0]  # Remove extension
 
         # Check if it's the last element (again)
