@@ -28,8 +28,10 @@ def generate_bc(url, separator):
         if part == url_parts[-1]:
             # Check for common extensions
             extensions = ['.html', '.htm', '.php', '.asp']
-            if any(part.endswith(ext) for ext in extensions):
-                part = part.rsplit('.', 1)[0]  # Remove extension
+            for ext in extensions:
+                if part.endswith(ext):
+                    part = part[:-len(ext)]  # Remove extension
+                    break
 
         # Check if it's the last element (again)
         if part == url_parts[-1]:
